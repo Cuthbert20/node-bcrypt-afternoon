@@ -63,7 +63,12 @@ export default class Header extends Component {
   }
 
   logout() {
-    // axios GET to /auth/logout here
+    console.log('it worked logging me out')
+    Axios.get('/auth/logout')
+    .then(() => {
+      this.props.updateUser({})
+    })
+    .catch(err => console.log(err))
   }
 
   render() {

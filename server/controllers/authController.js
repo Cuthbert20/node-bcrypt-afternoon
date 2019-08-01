@@ -47,5 +47,10 @@ module.exports = {
         }
         console.log(req.session)
         return res.status(200).send(req.session.user)
+    },
+    logout: async (req,res) => {
+        //built in method to destroys the users session object, logging the user out
+        req.session.destroy()
+        res.sendStatus(200)
     }
 }

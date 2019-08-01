@@ -19,7 +19,17 @@ export default class Container extends Component {
   }
 
   getDragonTreasure() {
-    // axios GET to /api/treasure/dragon here
+    axios.get('/api/treasure/dragon')
+    //Chain a .then and set the data from the response to the treasures object on state on a property called dragon.
+    .then(res => {
+      this.setState({
+        treasures: {
+          //Make sure to use the spread operator to keep the treasures object immutable.
+          ...this.state.treasures,
+          dragon: res.data
+        }
+      })
+    }).catch(err => console.log(err))
   }
 
   getAllTreasure() {
