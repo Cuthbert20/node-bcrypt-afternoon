@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Header.css';
+import Axios from 'axios';
 
 export default class Header extends Component {
   constructor() {
@@ -28,11 +29,37 @@ export default class Header extends Component {
   }
 
   login() {
-    // axios POST to /auth/login here
+    console.log('hit')
+    const { username, password } = this.state
+    //when passing back data use {} need to send it back as an obj.
+    //if you get a 401 error you should console.log(req.body) on the backend
+    Axios.post('/auth/login', {username, password})
+    .then(user => {
+      this.setState({
+        // clearing input boxes
+        username: '',
+        password: ''
+      })
+      this.props.updateUser(user.data)
+      console.log(this.state.username)
+    }).catch(err => {
+      alert(err.response.request.response, "not logging in right sister")
+    })
   }
 
   register() {
-    // axios POST to /auth/register here
+    const { username, password, isAdmin } = this.state
+    //sending obj with username, passwor, isAdmin from state as the body of the request
+    Axios.post('/auth/register', {username, password, isAdmin})
+    .then(user => {
+      this.setState({
+        username: '', password: ''
+      })
+      this.props.updateUser(user.data)
+    }).catch(err => {
+      this.setState({username: '', password: ''})
+      alert("nope",err.response.request.response)
+    })
   }
 
   logout() {
