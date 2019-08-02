@@ -6,6 +6,7 @@ const app = express()
 const {SESSION_SECRET, CONNECTION_STRING, SERVER_PORT} = process.env
 const ctrl = require("./controllers/authController")
 const treasureCtrl = require("./controllers/treasureController")
+const auth = require('./middleware/authMiddleware')
 
 
 //TOP level middleware
@@ -24,6 +25,7 @@ app.post('/auth/login', ctrl.login) //login button
 app.get('/auth/logout', ctrl.logout)//logout button
 
 app.get('/api/treasure/dragon', treasureCtrl.dragonTreasure)
+app.get('/api/treasure/user', auth.usersOnly, treasureCtrl.getUserTreasure)
 
 
 
